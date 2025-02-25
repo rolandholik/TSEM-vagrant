@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
     sudo make install
     
     cd ~/Quixote
-    make Support lib HurdLib/libHurdLib.a SecurityModel Quixote
+    make
     sudo make install
     echo "export PATH=\"/opt/Quixote/sbin:/opt/Quixote/bin:$PATH\"" | sudo tee -a /etc/environment
 
