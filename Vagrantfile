@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
     sudo apt-get update -y && sudo apt-get upgrade -y
     sudo apt-get install -y libncurses5-dev gcc make git exuberant-ctags bc libssl-dev git fakeroot build-essential ncurses-dev xz-utils libssl-dev bc flex libelf-dev bison libcap-dev libxen-dev pkg-config elfutils
     cd ~
-    git clone https://github.com/rolandholik/TSEM.git
+    git clone --depth=1 --branch TSEM-6.10 https://github.com/rolandholik/TSEM.git
     git clone --recurse-submodules https://github.com/rolandholik/Quixote.git
     cd Quixote
     sed -i 's#url = git@github.com:Quixote-Project/HurdLib.git#url = https://github.com/Quixote-Project/HurdLib.git#g' .git/config
