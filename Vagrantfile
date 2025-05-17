@@ -15,25 +15,25 @@ Vagrant.configure("2") do |config|
 
    config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update -y && sudo apt-get upgrade -y
-    sudo apt-get install -y libncurses5-dev gcc make git exuberant-ctags bc libssl-dev git fakeroot build-essential ncurses-dev xz-utils libssl-dev bc flex libelf-dev bison libcap-dev libxen-dev pkg-config elfutils
+    sudo apt-get install -y libncurses5-dev gcc make git libssl-dev fakeroot build-essential ncurses-dev xz-utils flex libelf-dev bison libcap-dev libxen-dev pkg-config elfutils exuberant-ctags
+
     cd ~
     git clone --depth=1 --branch TSEM-6.12 https://github.com/rolandholik/TSEM.git
     git clone --recurse-submodules https://github.com/rolandholik/Quixote.git
     cd Quixote
     sed -i 's#url = git@github.com:Quixote-Project/HurdLib.git#url = https://github.com/Quixote-Project/HurdLib.git#g' .git/config
     git pull --recurse-submodules
-    
+
     cd ~/TSEM
-    sudo make -j$(nproc)
+    make -j$(nproc)
     sudo make modules_install
     sudo make install
-    
+
     cd ~/Quixote
     make
     sudo make install
     echo "export PATH=\"/opt/Quixote/sbin:/opt/Quixote/bin:$PATH\"" | sudo tee -a /etc/environment
 
-    sudo sed -i 's/^GRUB_HIDDEN_TIMEOUT=0/GRUB_HIDDEN_TIMEOUT=0/' /etc/default/grub
     sudo sed -i 's/^GRUB_TIMEOUT=0/GRUB_TIMEOUT=10/' /etc/default/grub
     sudo sed -i 's/^GRUB_TIMEOUT_STYLE=hidden/#GRUB_TIMEOUT_STYLE=menu/' /etc/default/grub
     sudo sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT=".*"/GRUB_CMDLINE_LINUX_DEFAULT=""/' /etc/default/grub
